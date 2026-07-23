@@ -1,0 +1,70 @@
+name: Bug Report
+description: Create a report to help us improve
+title: "[Bug]: "
+labels: ["bug", "triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to fill out this bug report!
+
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened?
+      description: Also tell us, what did you expect to happen?
+      placeholder: Tell us what you see!
+    validations:
+      required: true
+
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: How to reproduce?
+      description: |
+        Please provide a minimal reproducible example (MRE).
+        This helps us verify the bug and fix it faster.
+        If the issue is about the generated report, please attach the HTML file or a screenshot.
+      placeholder: |
+        1. Run '...'
+        2. Open the report '...'
+        3. See error
+    validations:
+      required: true
+
+  - type: input
+    id: version
+    attributes:
+      label: akquant-lwc Version
+      description: What version of this plugin are you running? (`pip show akquant-lwc`)
+      placeholder: e.g., 0.1.0
+    validations:
+      required: true
+
+  - type: input
+    id: akquant-version
+    attributes:
+      label: AKQuant Version (if applicable)
+      description: If the issue involves BacktestResult integration, which akquant version? (`pip show akquant`)
+      placeholder: e.g., 0.3.16
+    validations:
+      required: false
+
+  - type: dropdown
+    id: os
+    attributes:
+      label: Operating System
+      options:
+        - Windows
+        - macOS
+        - Linux
+        - Other
+    validations:
+      required: true
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: Relevant log output
+      description: Please copy and paste any relevant log output (Python traceback, or browser console errors from DevTools). This will be automatically formatted into code, so no need for backticks.
+      render: shell

@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: GitHub Discussions
+    url: https://github.com/neoblackxt/akquant-lwc/discussions
+    about: Please ask and answer questions here.
+  - name: AKQuant 主项目
+    url: https://github.com/akfamily/akquant/discussions
+    about: Questions about the AKQuant core engine (not this plugin) belong here.

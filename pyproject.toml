@@ -1,0 +1,58 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "akquant-lwc"
+version = "0.1.0"
+description = "TradingView Lightweight Charts backtest report & trade review plugin for AKQuant (plotly-free)"
+readme = "README.md"
+license = { text = "MIT License" }
+authors = [{ name = "Neo Black", email = "neoblackxt@outlook.com" }]
+keywords = [
+    "akquant",
+    "lightweight-charts",
+    "tradingview",
+    "backtest",
+    "report",
+    "quant",
+]
+classifiers = [
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "License :: OSI Approved :: MIT License",
+]
+requires-python = ">=3.10"
+dependencies = ["pandas>=2.0.0"]
+
+[project.optional-dependencies]
+dev = ["pytest>=7.0.0", "akquant>=0.3.16", "ruff>=0.1.0", "hatchling>=1.0.0"]
+
+[project.urls]
+Homepage = "https://github.com/neoblackxt/akquant-lwc"
+Repository = "https://github.com/neoblackxt/akquant-lwc"
+Issues = "https://github.com/neoblackxt/akquant-lwc/issues"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/akquant_lwc"]
+
+[tool.hatch.build.targets.sdist]
+include = ["src/akquant_lwc", "README.md", "LICENSE"]
+
+[tool.ruff]
+line-length = 88
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "D"]
+ignore = ["D100", "D104"]
+
+[tool.ruff.lint.pydocstyle]
+convention = "pep257"
+
+[tool.ruff.lint.per-file-ignores]
+# HTML/JS live inside string constants; long lines are unavoidable there.
+"src/akquant_lwc/_template.py" = ["E501"]
+"src/akquant_lwc/_app_js.py" = ["E501"]

@@ -1,0 +1,78 @@
+name: Publish to PyPI
+
+# 触发方式：
+# 1. push 到 main（dev 合并入 main）：构建并检查版本，版本号在 PyPI 不存在时自动发布
+# 2. GitHub Release 发布：构建并发布（与 push 走同一版本守卫，重复版本自动跳过）
+# 3. workflow_dispatch：手动触发
+on:
+  push:
+    branches: [main]
+  release:
+    types: [published]
+  workflow_dispatch: {}
+
+jobs:
+  build:
+    name: Build sdist & wheel
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up uv
+        uses: astral-sh/setup-uv@v5
+
+      - name: Build distributions
+        run: uv build
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: dist
+          path: dist/
+
+  check-version:
+    name: Check if version exists on PyPI
+    needs: build
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.ver.outputs.version }}
+      exists: ${{ steps.check.outputs.exists }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Read version from pyproject.toml
+        id: ver
+        run: echo "version=$(grep -oP '^version = "\K[^"]+' pyproject.toml)" >> "$GITHUB_OUTPUT"
+
+      - name: Query PyPI for this version
+        id: check
+        run: |
+          version="${{ steps.ver.outputs.version }}"
+          code=$(curl -s -o /dev/null -w "%{http_code}" \
+            "https://pypi.org/pypi/akquant-lwc/${version}/json")
+          echo "PyPI status for ${version}: HTTP ${code}"
+          if [ "$code" = "200" ]; then
+            echo "exists=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "exists=false" >> "$GITHUB_OUTPUT"
+          fi
+
+  publish:
+    name: Publish to PyPI (Trusted Publisher)
+    needs: check-version
+    # 版本已存在于 PyPI 时跳过（常规 main 合并不 bump 版本不会导致失败）
+    if: needs.check-version.outputs.exists == 'false'
+    runs-on: ubuntu-latest
+    environment:
+      name: pypi
+      url: https://pypi.org/p/akquant-lwc
+    permissions:
+      id-token: write # 必须：用于向 PyPI 换取短期发布令牌（OIDC）
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: dist
+          path: dist/
+
+      - name: Publish to PyPI
+        uses: pypa/gh-action-pypi-publish@release/v1
