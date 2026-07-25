@@ -431,7 +431,7 @@ def build_benchmark_sections(
     total_excess = float((1 + s).prod() / (1 + bb).prod() - 1.0)
     var_b = float(bb.var(ddof=0))
     # 协方差用逐元素运算，避免 DataFrame.cov 触发 numpy BLAS matmul
-    #（部分环境 numpy BLAS 会无声崩溃）
+    # （部分环境 numpy BLAS 会无声崩溃）
     cov_sb = float(((s - s.mean()) * (bb - bb.mean())).mean())
     beta = cov_sb / var_b if var_b > 0 else None
     alpha = (
