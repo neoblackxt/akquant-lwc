@@ -145,8 +145,15 @@ plot_report(result, market_data=None, title="...", filename="...",
 **`serve_review`**
 
 ```python
-serve_review(result, market_data=None, data_provider=None,
-             host="127.0.0.1", port=8765, title="...", open_browser=True)
+serve_review(
+    result,
+    market_data=None,
+    data_provider=None,
+    host="127.0.0.1",
+    port=8765,
+    title="...",
+    open_browser=True,
+)
 ```
 
 启动交互式复盘服务（阻塞，Ctrl+C 停止）。
