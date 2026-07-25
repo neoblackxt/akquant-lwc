@@ -21,11 +21,17 @@ so the plugin also works without the patch or with akquant not installed::
     serve_review(result, market_data={"600000": df})
 """
 
+from importlib.metadata import PackageNotFoundError
+from importlib.metadata import version as _dist_version
+
 from ._patch import patch_result_methods
 from .report import build_app_data, plot_report, render_html
 from .server import serve_review
 
-__version__ = "0.1.0"
+try:
+    __version__ = _dist_version("akquant-lwc")
+except PackageNotFoundError:  # 源码树直接引用（未安装）时的兜底
+    __version__ = "0.0.0+unknown"
 
 __all__ = [
     "build_app_data",
