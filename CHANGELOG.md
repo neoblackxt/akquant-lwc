@@ -7,7 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-首个候选版本（0.1.0，待发）。AKQuant 可视化报告的 plotly 替代插件，基于
+## [0.1.0] - 2026-07-25
+
+首个公开版本。AKQuant 可视化报告的 plotly 替代插件，基于
 TradingView Lightweight Charts。
 
 ### Added
@@ -40,3 +42,6 @@ TradingView Lightweight Charts。
 - **工程**：GitHub Release / push 到 main 触发的 PyPI Trusted Publisher
   发布流水线（OIDC 免 token，含版本守卫与人工审批门）；dev CI
   （lint + 单测 + 构建检查）；ruff 代码规范；pytest 单元测试
+
+[Unreleased]: https://github.com/neoblackxt/akquant-lwc/compare/v0.1.0...HEAD
+[0.1.0]: https://github.com/neoblackxt/akquant-lwc/releases/tag/v0.1.0
